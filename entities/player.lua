@@ -1,5 +1,5 @@
 local Class = require 'libs.hump.class'
-local Entity = require 'entities.Entity'
+local Entity = require 'entities.entity'
 
 local Player = Class{
   __includes = Entity
@@ -22,7 +22,7 @@ function Player:init(world, x, y)
   self.jumpAcc = 500
   self.jumpMaxSpeed  = 11
 
-  self.world.add(self, self:getRect())
+  self.world:add(self, self:getRect())
 end
 
 function Player:collisionFilter(other)
