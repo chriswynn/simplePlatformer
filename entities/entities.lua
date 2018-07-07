@@ -1,7 +1,7 @@
-local Entities {
+local Entities = {
   active = true,
   world = nil,
-  entityList{}
+  entityList = {}
 }
 
 function Entities:enter(world)
