@@ -1,5 +1,5 @@
 local Class = require 'libs.hump.class'
-local Entity = require 'entities.Entity'
+local Entity = require 'entities.entity'
 
 local Ground = Class{
   __includes = Entity
@@ -11,7 +11,7 @@ function Ground:init(world, x, y, w, h)
 end
 
 function Ground:draw()
-  love.graphics.rectangle("fill", self:getRect())
+  love.graphics.rectangle('fill', self:getRect())
 end
 
 return Ground
