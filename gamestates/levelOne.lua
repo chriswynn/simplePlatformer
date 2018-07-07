@@ -1,32 +1,40 @@
-bump = require 'libs.bump.bump'
-Gamestate = require 'libs.hump.gamestate'
+local Gamestate = require 'libs.hump.gamestate'
+local Class = require 'libs.hump.class'
 
-local Entities = require 'entities.entities'
-local Entity = require 'entities.entity'
-
-local levelOne = Gamestate.new()
-
+local LevelBase = require 'gamestates.levelBase'
 local Player = require 'entities.player'
-local Ground = require 'entities.ground'
+local camera = require 'libs.camera'
+
+local levelOne = Class{
+  __includes = LevelBase
+}
 
 player = nil
-world = nil
+
+function levelOne:init()
+  LevelBase.init(self, 'assets/levels/level_one.lua')
+end
 
 function levelOne:enter()
-  world = bump.newWorld(16)
-  Entities:enter()
-  player = Player(world, 16, 16)
-  ground_0 = Ground(world, 120, 360, 640, 16)
-  ground_1 = Ground(world, 0, 448, 640, 16)
-  Entities:addMany({player, ground_0, ground_1})
+  player = Player(self.world, 32, 64)
+  LevelBase.Entities:add(player)
 end
 
 function levelOne:update(dt)
-  Entities:update(dt)
+  self.map:update(dt)
+  LevelBase.Entities:update(dt)
+  LevelBase.positionCamera(self, player, camera)
 end
 
 function levelOne:draw()
-  Entities:draw()
+  camera:set()
+  self.map:draw(-camera.x, -camera.y)
+  LevelBase.Entities:draw()
+  camera:unset()
+end
+
+function levelOne:keypressed(key)
+  LevelBase:keypressed(key)
 end
 
 return levelOne
